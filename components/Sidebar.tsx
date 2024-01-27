@@ -9,18 +9,19 @@ import { RxDashboard } from "react-icons/rx";
 import { FaFileAlt } from "react-icons/fa";
 import { IoMdAnalytics } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
+import { MdHelpCenter } from "react-icons/md";
 
 const SIDENAV_ITEMS = [
   {
     title: "Dashboard",
     path: "/dashboard",
-    icon: <RxDashboard />,
+    icon: <RxDashboard size={20} />,
   },
 
   {
     title: "Cases",
     path: "/dashboard/cases",
-    icon: <FaFileAlt />,
+    icon: <FaFileAlt size={20} />,
     submenu: true,
     subMenuItems: [
       { title: "View Cases", path: "/dashboard/cases" },
@@ -28,9 +29,19 @@ const SIDENAV_ITEMS = [
     ],
   },
   {
+    title: "Evidence",
+    path: "/dashboard/evidence",
+    icon: <MdHelpCenter size={20} />,
+    submenu: true,
+    subMenuItems: [
+      { title: "View Evidence", path: "/dashboard/evidence" },
+      { title: "Add Evidence", path: "/dashboard/evidence/new" },
+    ],
+  },
+  {
     title: "Analytics",
     path: "/dashboard/analytics",
-    icon: <IoMdAnalytics />,
+    icon: <IoMdAnalytics size={20} />,
   },
 ];
 
@@ -71,7 +82,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
             <div
               className={`transition ${subMenuOpen ? "rotate-180" : ""} flex`}
             >
-              <FaChevronDown size={14} />
+              <FaChevronDown size={14} className="pl-1" />
             </div>
           </button>
 
