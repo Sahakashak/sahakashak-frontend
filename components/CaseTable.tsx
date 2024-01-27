@@ -11,6 +11,7 @@ import {
   Skeleton,
   Link,
 } from "@nextui-org/react";
+import { FaRegEye, FaTrash } from "react-icons/fa";
 
 interface CaseData {
   _id: string;
@@ -19,8 +20,6 @@ interface CaseData {
   name: string;
   timeOfCrime: Date;
 }
-import { FaRegEye } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
 
 export default function CaseTable() {
   const [caseData, setCaseData] = useState<CaseData[]>([]);
@@ -37,12 +36,14 @@ export default function CaseTable() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleRead = (id: string) => {
-    console.log(`Read action for case with ID: ${id}`);
-  };
-
   const handleDelete = (id: string) => {
-    console.log(`Delete action for case with ID: ${id}`);
+    fetch("https://sahakshak-backend.vercel.app/api/cases/" + id, {
+      method: "DELETE",
+      credentials: "same-origin",
+    })
+      .then((response) => response.json())
+      .then(() => setCaseData(caseData.filter((item) => item._id !== id)))
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   return (
@@ -78,7 +79,6 @@ export default function CaseTable() {
             </TableCell>
           </TableRow>
         ) : (
-          // Render actual data when available
           caseData.map((item) => (
             <TableRow key={item._id}>
               <TableCell className="">{item._id}</TableCell>
