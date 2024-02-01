@@ -1,5 +1,5 @@
 export interface Case {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   status: string;
@@ -12,6 +12,7 @@ export interface Case {
   pinCode: string;
   timeOfCrime: string;
   suspect: string;
+  location: string;
   createdAt: string;
-  __v: number;
+  __v?: number;
 }

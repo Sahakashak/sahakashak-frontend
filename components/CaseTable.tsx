@@ -10,41 +10,24 @@ import {
   Button,
   Skeleton,
   Link,
+  Chip,
 } from "@nextui-org/react";
 import { FaRegEye, FaTrash } from "react-icons/fa";
-
-interface CaseData {
-  _id: string;
-  title: string;
-  status: string;
-  name: string;
-  timeOfCrime: Date;
+import { Case } from "@/lib/types/case";
+import { LuFileEdit } from "react-icons/lu";
+interface CaseTableProps {
+  cases: Case[];
 }
+const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
+  console.log(cases);
 
-export default function CaseTable() {
-  const [caseData, setCaseData] = useState<CaseData[]>([]);
+  const [caseData, setCaseData] = useState([] as Case[]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     setLoading(true);
-    fetch("https://sahakshak-backend.vercel.app/api/cases", {
-      credentials: "same-origin",
-    })
-      .then((response) => response.json())
-      .then((data: CaseData[]) => setCaseData(data))
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleDelete = (id: string) => {
-    fetch("https://sahakshak-backend.vercel.app/api/cases/" + id, {
-      method: "DELETE",
-      credentials: "same-origin",
-    })
-      .then((response) => response.json())
-      .then(() => setCaseData(caseData.filter((item) => item._id !== id)))
-      .catch((error) => console.error("Error fetching data:", error));
-  };
+    setCaseData(cases);
+    setLoading(false);
+  }, [cases]);
 
   return (
     <Table aria-label="Case Data Table" className="mt-5">
@@ -79,30 +62,35 @@ export default function CaseTable() {
             </TableCell>
           </TableRow>
         ) : (
-          caseData.map((item) => (
+          caseData.map((item: any) => (
             <TableRow key={item._id}>
               <TableCell className="">{item._id}</TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>
                 {new Date(item.timeOfCrime).toLocaleString()}
               </TableCell>
-              <TableCell>{item.status}</TableCell>
+              <TableCell className="flex justify-center w-full">
+                <Chip className="w-full" color={getStatusColor(item.status)}>
+                  {item.status}
+                </Chip>
+              </TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell className="flex gap-3">
-                <Button className="bg-green-300 w-4 p-0" size="sm">
+                <Button className="bg-green-200 w-4 p-0" size="sm">
                   <Link
                     href={"cases/" + item._id}
                     className="w-full h-full text-center flex justify-center"
                   >
-                    <FaRegEye className="text-green-700" />
+                    <FaRegEye className="text-green-500" />
                   </Link>
                 </Button>
-                <Button
-                  className="bg-red-300 w-1 m-0"
-                  size="sm"
-                  onClick={() => handleDelete(item._id)}
-                >
-                  <FaTrash className="text-red-700" />
+                <Button className="bg-yellow-200 w-4 p-0" size="sm">
+                  <Link
+                    href={"cases/edit/" + item._id}
+                    className="w-full h-full text-center flex justify-center"
+                  >
+                    <LuFileEdit className="text-yellow-500" />
+                  </Link>
                 </Button>
               </TableCell>
             </TableRow>
@@ -111,4 +99,21 @@ export default function CaseTable() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default CaseTable;
+
+const getStatusColor = (
+  status: string
+): "success" | "secondary" | "warning" | "default" => {
+  switch (status) {
+    case "Open":
+      return "success";
+    case "Closed":
+      return "secondary";
+    case "Pending":
+      return "warning";
+    default:
+      return "default";
+  }
+};
