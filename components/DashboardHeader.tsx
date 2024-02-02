@@ -1,7 +1,22 @@
 import React from "react";
 import { Card, Text, Metric } from "@tremor/react";
 import { LuPcCase } from "react-icons/lu";
-export default function DashboardHeader() {
+import { Case } from "@/lib/types/case";
+export default function DashboardHeader({
+  cases,
+  totalArrests,
+}: {
+  cases: Case[];
+  totalArrests: number;
+}) {
+  const totalCases = cases.length;
+  const pendingCases = cases.filter(
+    (caseItem) => caseItem.status === "Pending"
+  ).length;
+  const closedCases = cases.filter(
+    (caseItem) => caseItem.status === "Closed"
+  ).length;
+  const openedCases = totalCases - pendingCases - closedCases;
   return (
     <div className="grid grid-cols-4 gap-4">
       <Card
@@ -11,7 +26,7 @@ export default function DashboardHeader() {
       >
         <div>
           <Text>Total Cases</Text>
-          <Metric>500</Metric>
+          <Metric>{totalCases}</Metric>
         </div>
         <div className="p-4 bg-blue-200 text-blue-500 rounded-2xl">
           <LuPcCase className="text-xl" />
@@ -24,7 +39,7 @@ export default function DashboardHeader() {
       >
         <div>
           <Text>Total Arrests</Text>
-          <Metric>100</Metric>
+          <Metric>{totalArrests}</Metric>
         </div>
         <div className="p-4 bg-green-200 text-green-500 rounded-2xl">
           <LuPcCase className="text-xl" />
@@ -37,7 +52,7 @@ export default function DashboardHeader() {
       >
         <div>
           <Text>Opened Cases</Text>
-          <Metric>170</Metric>
+          <Metric>{openedCases}</Metric>
         </div>
         <div className="p-4 bg-yellow-200 text-yellow-500 rounded-2xl">
           <LuPcCase className="text-xl" />
@@ -50,7 +65,7 @@ export default function DashboardHeader() {
       >
         <div>
           <Text>Pending Cases</Text>
-          <Metric>230</Metric>
+          <Metric>{pendingCases}</Metric>
         </div>
         <div className="p-4 bg-red-200 text-red-500 rounded-2xl">
           <LuPcCase className="text-xl" />
