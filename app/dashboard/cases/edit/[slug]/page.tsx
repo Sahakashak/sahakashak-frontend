@@ -43,7 +43,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     try {
       const formData = new FormData(e.target as HTMLFormElement);
-      formData.append("image", imageFile || "");
 
       setIsLoading(true);
       const res = await fetch(

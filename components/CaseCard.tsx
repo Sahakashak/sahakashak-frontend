@@ -12,6 +12,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData }) => {
       <div className=" grid grid-cols-3">
         <div className="relative min-h-[200px]">
           <Image
+            isZoomed
             alt="Card background"
             src={
               caseData.imageURL ||
@@ -48,22 +49,19 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData }) => {
             </p>
           </CardBody>
           <div className="flex gap-3 w-full justify-end px-4 py-2">
-            <Button className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">
-              <Link href={`/cases/${caseData._id}`} className="w-full h-full">
+            <Link href={`/dashboard/cases/${caseData._id}`}>
+              <Button className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">
                 View Case
-              </Link>
-            </Button>
-            <Button
-              variant="bordered"
-              className="border border-yellow-500 text-black shadow-lg"
-            >
-              <Link
-                href={`/cases/edit/${caseData._id}`}
-                className="w-full h-full"
+              </Button>
+            </Link>
+            <Link href={`/dashboard/cases/edit/${caseData._id}`}>
+              <Button
+                variant="bordered"
+                className="border border-yellow-500 text-black shadow-lg"
               >
                 Edit Case
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
