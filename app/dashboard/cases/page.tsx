@@ -1,3 +1,4 @@
+import CaseList from "@/components/CaseList";
 import CaseTable from "@/components/CaseTable";
 import console from "console";
 async function getCases() {
@@ -16,7 +17,8 @@ export default async function page() {
   return (
     <div>
       <h1 className="text-3xl font-semibold ">Cases</h1>
-      <CaseTable cases={cases} />
+      {/* <CaseTable cases={cases} /> */}
+      <CaseList cases={cases} />
     </div>
   );
 }

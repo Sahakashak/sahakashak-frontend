@@ -14,5 +14,6 @@ export interface Case {
   suspect: string;
   location: string;
   createdAt: string;
+  imageURL?: string;
   __v?: number;
 }

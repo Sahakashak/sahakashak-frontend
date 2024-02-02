@@ -23,6 +23,7 @@ const statuses = [
 export default function Page({ params }: { params: { slug: string } }) {
   const [isLoading, setIsLoading] = useState(true);
   const [caseData, setCaseData] = useState<Case>({} as Case);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   useLayoutEffect(() => {
     setIsLoading(true);
     fetch("https://sahakshak-backend.vercel.app/api/cases/" + params.slug, {
@@ -41,17 +42,16 @@ export default function Page({ params }: { params: { slug: string } }) {
     e.preventDefault();
 
     try {
-      console.log(caseData);
+      const formData = new FormData(e.target as HTMLFormElement);
+      formData.append("image", imageFile || "");
 
       setIsLoading(true);
       const res = await fetch(
         "https://sahakshak-backend.vercel.app/api/cases/" + params.slug,
         {
           method: "PUT",
-          body: JSON.stringify(caseData),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          body: formData,
+
           credentials: "same-origin",
         }
       );
@@ -227,6 +227,18 @@ export default function Page({ params }: { params: { slug: string } }) {
                     <SelectItem key={status.value}>{status.label}</SelectItem>
                   )}
                 </Select>
+                <div className="flex gap-2">
+                  <label htmlFor="image" className="text-sm font-semibold">
+                    Upload Image
+                  </label>
+                  <Input
+                    type="file"
+                    name="image"
+                    color="secondary"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                  />
+                </div>
               </div>
               <div className="flex justify-end">
                 <Button

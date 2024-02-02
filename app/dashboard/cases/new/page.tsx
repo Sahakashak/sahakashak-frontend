@@ -18,29 +18,25 @@ export default function Page() {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const formObject: { [key: string]: string } = {};
-    formData.forEach((value, key) => {
-      formObject[key] = String(value);
-    });
-
-    console.log("Form data:", formObject);
     try {
       setIsLoading(true);
+
       const data = await fetch(
         "https://sahakshak-backend.vercel.app/api/cases",
         {
           method: "POST",
-          body: JSON.stringify(formObject),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          body: formData,
           credentials: "same-origin",
         }
       );
+
       const response = await data.json();
-      (e.target as HTMLFormElement).reset();
+      console.log("Response:", response);
+
+      // Reset the form
+      // (e.target as HTMLFormElement).reset();
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -149,7 +145,20 @@ export default function Page() {
                   label="Suspect"
                   required
                 />
+                <div className="flex gap-2">
+                  <label htmlFor="image" className="text-sm font-semibold">
+                    Upload Image
+                  </label>
+                  <Input
+                    type="file"
+                    name="image"
+                    color="secondary"
+                    accept="image/*"
+                    required
+                  />
+                </div>
               </div>
+
               <div className="flex justify-end">
                 <Button
                   type="submit"

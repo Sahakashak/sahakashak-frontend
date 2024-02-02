@@ -1,41 +1,16 @@
-import Card from "@/components/Cards";
+import DashboardHeader from "@/components/DashboardHeader";
+import GenderChart from "@/components/GenderChart";
+import WeekChart from "@/components/WeekChart";
 
-export default function page() {
+export default function Page() {
   return (
     <div>
-      <div className="grid grid-cols-3 gap-4">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+      <DashboardHeader />
+      <div className="mt-5 grid grid-cols-3 gap-4">
+        <div className=" col-span-2">
+          <WeekChart />
+        </div>
+        <GenderChart />
       </div>
     </div>
   );

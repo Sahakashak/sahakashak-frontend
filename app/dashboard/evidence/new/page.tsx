@@ -21,22 +21,19 @@ export default function Page() {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const formObject: { [key: string]: string } = {};
-    formData.forEach((value, key) => {
-      formObject[key] = String(value);
-    });
+    // const formObject: { [key: string]: string } = {};
+    // formData.forEach((value, key) => {
+    //   formObject[key] = String(value);
+    // });
 
-    console.log("Form data:", formObject);
     try {
       setIsLoading(true);
       const data = await fetch(
         "https://sahakshak-backend.vercel.app/api/evidence",
         {
           method: "POST",
-          body: JSON.stringify(formObject),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          body: formData,
+
           credentials: "same-origin",
         }
       );
@@ -51,8 +48,10 @@ export default function Page() {
 
   return (
     <div>
-      {" "}
-      <h1 className="text-3xl font-semibold mb-5">Add an Evidence</h1>
+      <h1 className="text-3xl font-semibold mb-5">
+        Add Criminal
+        <span className=" text-sm text-gray-700 font-medium"></span>
+      </h1>
       <div className="flex flex-col space-y-4 ">
         <div className="bg-primary_light p-5 rounded-xl">
           <h1 className="font-semibold text-lg ">Evidence Information</h1>
@@ -122,7 +121,20 @@ export default function Page() {
                   required
                   color="secondary"
                 />
+                <div className="flex gap-2">
+                  <label htmlFor="image" className="text-sm font-semibold">
+                    Upload Image
+                  </label>
+                  <Input
+                    type="file"
+                    name="image"
+                    color="secondary"
+                    accept="image/*"
+                    required
+                  />
+                </div>
               </div>
+
               <div className="flex justify-end">
                 <Button
                   type="submit"
